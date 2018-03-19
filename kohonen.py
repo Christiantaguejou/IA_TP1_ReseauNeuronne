@@ -47,7 +47,7 @@ class Neuron:
     @type x: numpy array
     '''
     # TODO Attention il faut bien renvoyer la distance entre le poids et l'entrée et pas 0/1 suivant si le neurone est gagnant ou pas comme dans le TP (la détermination du neurone gagnant se fait ailleurs dans le code)
-    self.y = None
+    self.y = numpy.sqrt(numpy.sum(numpy.power(numpy.subtract(x,self.weights),2)))
 
   def learn(self,eta,sigma,posxbmu,posybmu,x):
     '''
@@ -64,7 +64,49 @@ class Neuron:
     @type x: numpy array
     '''
     # TODO
-    self.weights[:] = numpy.random.random(self.weights.shape)
+    self.weights[:] = numpy.multiply(
+                        numpy.multiply(
+                            eta,
+                            numpy.exp(
+                                numpy.subtract(
+                                    0,
+                                    numpy.divide(
+                                            numpy.abs(
+                                                numpy.sqrt(
+                                                    numpy.add(
+                                                        numpy.power(
+                                                            numpy.subtract(
+                                                                self.posx,
+                                                                posxbmu
+                                                            ),
+                                                            2
+                                                        ),
+                                                        numpy.power(
+                                                            numpy.subtract(
+                                                                self.posy,
+                                                                posybmu
+                                                            ),
+                                                            2
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                        numpy.multiply(
+                                            2,
+                                            numpy.power(
+                                                sigma,
+                                                2
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        numpy.subtract(
+                            x,
+                            self.weights
+                        )
+    )
 
 
 class SOM:
