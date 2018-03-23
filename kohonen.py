@@ -64,49 +64,10 @@ class Neuron:
     @type x: numpy array
     '''
     # TODO
-    self.weights[:] = numpy.multiply(
-                        numpy.multiply(
-                            eta,
-                            numpy.exp(
-                                numpy.subtract(
-                                    0,
-                                    numpy.divide(
-                                            numpy.abs(
-                                                numpy.sqrt(
-                                                    numpy.add(
-                                                        numpy.power(
-                                                            numpy.subtract(
-                                                                self.posx,
-                                                                posxbmu
-                                                            ),
-                                                            2
-                                                        ),
-                                                        numpy.power(
-                                                            numpy.subtract(
-                                                                self.posy,
-                                                                posybmu
-                                                            ),
-                                                            2
-                                                        )
-                                                    )
-                                                )
-                                            ),
-                                        numpy.multiply(
-                                            2,
-                                            numpy.power(
-                                                sigma,
-                                                2
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        ),
-                        numpy.subtract(
-                            x,
-                            self.weights
-                        )
-    )
+    dist = (numpy.power((self.posx - posxbmu), 2) + numpy.power((self.posy - posybmu), 2))
+    sig = numpy.power(sigma, 2)
+    self.weights[:] = eta * (x - self.weights) * numpy.exp(-dist / (2 * sig)) + self.weights
+
 
 
 class SOM:
